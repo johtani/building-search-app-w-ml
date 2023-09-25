@@ -34,7 +34,7 @@ args = parser.parse_args()
 args.output_group_path = args.output_path + ".group"
 
 # ハンズオンなので、DeprecationWarningを無効にしてコンソールを見やすくする
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+#warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 extra_query_params = {}
 if args.target == "baseline":
@@ -56,7 +56,7 @@ with open(args.keywords_path) as f, open(args.output_path, "w") as of, open(
         keywords = keywords.strip()
         body = generate_query_func(keywords, **extra_query_params)
         try:
-            response = es.search(index="simplewiki", body=body)
+            response = es.search(index="simplewiki", **body)
             titles, features, hits, took = parse_response(response)
             labels = [int(title == keywords) for title in titles]
             # target == featureのとき、label種類が2つ以上あるリクエストのみを結果に出力する
